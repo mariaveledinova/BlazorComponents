@@ -1,0 +1,63 @@
+@page "/fetchdatagrid"
+@using BlazorComponents.Data
+@using BlazorComponents.Data.DBData
+@using Telerik.Blazor.Components.Grid
+@using Telerik.Blazor.Components.NumericTextBox
+@inject WeatherForecastService ForecastService
+
+<h1>Weather forecast</h1>
+<TelerikGrid Data="@GridData"
+             Pageable="true" Filterable="false" Sortable="true" Height="600px" EditMode="inline">
+    <TelerikGridColumns>
+        <TelerikGridColumn Field="@nameof(WeatherForecast.TemperatureF)" Title="TemperatureF" />
+
+        <TelerikGridCommandColumn>
+            <TelerikGridCommandButton Command="Edit" Icon="edit">Edit</TelerikGridCommandButton>
+            <TelerikGridCommandButton Command="Save" Icon="save" ShowInEdit="true">Update</TelerikGridCommandButton>
+        </TelerikGridCommandColumn>
+    </TelerikGridColumns>
+    <TelerikGridEvents>
+        <EventsManager OnUpdate=@UpdateForecastHandler>
+        </EventsManager>
+    </TelerikGridEvents>
+</TelerikGrid>
+
+<div class="demo-description">
+    <h5>Description</h5>
+    <p>
+        The <strong>Telerik Grid for Blazor</strong> is a powerful component, which allows you to visualize and edit data via its table representation.
+        It provides a variety of options about how to present and perform operations over the underlying data, such as paging, sorting,
+        filtering and editing.
+    </p>
+    <p>
+        The Blazor UI Grid allows flexible customization of its items exposing rows, columns and edit templates for this purpose.
+    </p>
+    <p>
+        <a href="https://docs.telerik.com/blazor-ui/components/grid/overview" target="_blank">
+            More about Grid for Blazor
+        </a>
+    </p>
+</div>
+@code{
+
+    public IEnumerable<WeatherForecast> GridData { get; set; }
+    WeatherForecast objWeatherForecast = new WeatherForecast();
+
+
+    protected override async Task OnInitAsync()
+    {
+        GridData = await ForecastService.GetForecastAsync();
+    }
+
+    private async void UpdateForecastHandler(GridCommandEventArgs args)
+    {
+        var argsItem = args.Item as WeatherForecast;
+
+
+        var result = ForecastService.UpdateForecastAsync(argsItem);
+                       
+        GridData = await ForecastService.GetForecastAsync();
+        StateHasChanged();
+
+    }
+}

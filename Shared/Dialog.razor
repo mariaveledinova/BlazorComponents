@@ -1,0 +1,16 @@
+<h3>Dialog</h3>
+<div>
+    <h1>@Title</h1>
+    <button @onclick="@OnYes">Yes!</button>
+</div>
+
+@code {
+[Parameter] private string Title { get; set; }
+[Parameter] RenderFragment ChildContent { get; set; }
+
+    private void OnYes()
+    {
+        Console.WriteLine("Write to the console in C#! 'Yes' button was selected.");
+    }
+
+}

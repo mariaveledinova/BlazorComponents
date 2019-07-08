@@ -1,0 +1,1 @@
+﻿{"ContextClassName":"BlazordemodbContext","DefaultDacpacSchema":null,"IdReplace":false,"IncludeConnectionString":false,"OutputPath":"Data\\DBData","ProjectRootNamespace":"BlazorComponents","SelectedToBeGenerated":0,"Tables":[{"HasPrimaryKey":true,"Name":"dbo.WeatherForecast"}],"UseDatabaseNames":false,"UseFluentApiOnly":true,"UseHandleBars":false,"UseInflector":false}

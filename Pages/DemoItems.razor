@@ -1,0 +1,34 @@
+@page "/demoitems"
+@using BlazorComponents.Data
+<h3>Demo Items</h3>
+
+<ul>
+    @foreach (var item in demoItemsList)
+    {
+        <li>
+            <input placeholder="Add your demo item here" @bind="@itemName" />
+            <input type="text" @bind="@itemCount" />
+        </li>
+    }
+</ul>
+
+    <input placeholder="Something todo" @bind="@itemName" />
+    <input type="text" @bind="@itemCount" />
+
+    <button @onclick="@AddToItem">Add Demo Items</button>
+
+    @code {
+
+        private IList<DemoItem> demoItemsList = new List<DemoItem>();
+        private string itemName;
+        private int itemCount;
+
+        private void AddToItem()
+        {
+            if (!string.IsNullOrWhiteSpace(itemName))
+            {
+                demoItemsList.Add(new DemoItem { DemoItemName = itemName, DemoItemCount = itemCount });
+            }
+        }
+
+    }

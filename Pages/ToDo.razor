@@ -1,0 +1,57 @@
+@page "/todo"
+@using BlazorComponents.Data
+@using Telerik.Blazor.Components.Calendar
+@using Telerik.Blazor
+
+<h3>To Do Next Two Months</h3>
+<TelerikCalendar Min="@min" Max="@max" ValueChanged="@MyValueChangeHandler" Date="@DateTime.Now" Views="2" View="@CalendarView.Month" SelectionMode="@CalendarSelectionMode.Single">
+</TelerikCalendar>
+
+<br />
+The selected date is: @selectedDate
+
+<ul>
+
+    @foreach (var todo in todos)
+    {
+    <li>
+        <input type="checkbox" @bind="@todo.IsDone" />
+        <input @bind="@todo.Title" />
+        <input @bind="@todo.ToDoDate" />
+    </li>
+    }
+</ul>
+
+<input placeholder="Something todo" @bind="@newTodo" />
+<input type="checkbox" @bind="@isDone" />
+
+<button @onclick="@AddToDo">Add todo</button>
+
+@code {
+
+private IList<ToDoItem> todos = new List<ToDoItem>();
+private string newTodo;
+private bool isDone;
+private DateTime newDate = DateTime.Now;
+
+private DateTime min = new DateTime(2019, 1, 1);
+private DateTime max = new DateTime(2039, 1, 1);
+private DateTime selectedDate { get; set; } = DateTime.Now;
+
+private void AddToDo()
+{
+    if (!string.IsNullOrWhiteSpace(newTodo))
+    {
+        todos.Add(new ToDoItem { Title = newTodo, IsDone = isDone,  ToDoDate = selectedDate});
+        newTodo = string.Empty;
+
+    }
+}
+
+private void MyValueChangeHandler(DateTime newValue)
+{
+    selectedDate = newValue;
+    StateHasChanged();
+}
+
+}

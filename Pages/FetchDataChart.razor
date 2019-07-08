@@ -1,0 +1,59 @@
+@page "/fetchdatachart"
+@using BlazorComponents.Data
+@using BlazorComponents.Data.DBData
+@using Telerik.Blazor
+@using Telerik.Blazor.Components.Chart
+@inject WeatherForecastService ForecastService
+
+<h3>Fetch Data Chart</h3>
+
+<TelerikChart>
+    <TelerikChartSeriesItems>
+       
+        <TelerikChartSeries Type="ChartSeriesType.Line" Name="Temperature C" Data="@GridData" Field="@nameof(WeatherForecast.TemperatureC)" CategoryField="@nameof(WeatherForecast.Date)">
+            <TelerikChartSeriesLabels Template="#=value# " Visible="true"></TelerikChartSeriesLabels>
+        </TelerikChartSeries>
+    </TelerikChartSeriesItems>
+
+    <TelerikChartValueAxes>
+        <TelerikChartValueAxis Color="red"></TelerikChartValueAxis>
+    </TelerikChartValueAxes>
+
+    <TelerikChartTitle Text="Weather forecast trend"></TelerikChartTitle>
+
+    <TelerikChartLegend Position="Telerik.Blazor.ChartLegendPosition.Bottom">
+    </TelerikChartLegend>
+</TelerikChart>
+
+@code{
+    public IEnumerable<WeatherForecast> GridData { get; set; }
+    WeatherForecast objWeatherForecast = new WeatherForecast();
+
+
+    protected override async Task OnInitAsync()
+    {
+        GridData = await ForecastService.GetForecastAsync();
+    }
+}
+
+@code {
+    public class MyDataModel
+    {
+        public int SecondSeriesValue { get; set; }
+        public string ExtraData { get; set; }
+
+    }
+
+    public List<MyDataModel> modelData = new List<MyDataModel>()
+{
+        new MyDataModel() { SecondSeriesValue = 1, ExtraData = "first" },
+        new MyDataModel() { SecondSeriesValue = 5, ExtraData = "second" },
+        new MyDataModel() { SecondSeriesValue = 3, ExtraData = "third" },
+        new MyDataModel() { SecondSeriesValue = 2, ExtraData = "fourth" },
+    };
+
+    public List<object> simpleData = new List<object>() { 10, 2, 7, 5 };
+
+    public string[] xAxisItems = new string[] { "Q1", "Q2", "Q3", "Q4" };
+
+}
